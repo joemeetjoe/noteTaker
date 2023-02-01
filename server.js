@@ -3,7 +3,7 @@ const express = require('express');
 // path requirements, because we are targetting outside the public file
 const path = require('path');
 // defining the port to listen to
-const PORT = "3001";
+const PORT = process.env.PORT || 3001;
 // epress requirements
 const app = express();
 // file system requirements
