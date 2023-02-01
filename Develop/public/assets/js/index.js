@@ -25,6 +25,7 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+// calls our local server to grab the file located under the /api/notes label, which is db.json
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
@@ -33,7 +34,8 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
+
+const saveNote = (note) => 
   fetch('/api/notes', {
     method: 'POST',
     headers: {
@@ -41,6 +43,8 @@ const saveNote = (note) =>
     },
     body: JSON.stringify(note),
   });
+
+  
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -71,7 +75,9 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
+  // console.log(newNote);
   saveNote(newNote).then(() => {
+    console.log(newNote);
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -117,8 +123,10 @@ const handleRenderSaveBtn = () => {
 };
 
 // Render the list of note titles
+// this will wait until the notes are fetched completely, then save them to json notes
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
+  // if the window location pathname is on the notes page, set all the inner HTML of the note list to nothing
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
@@ -159,6 +167,7 @@ const renderNoteList = async (notes) => {
   }
 
   jsonNotes.forEach((note) => {
+    // console.log(note);
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
 
@@ -173,6 +182,7 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
+
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
@@ -180,4 +190,7 @@ if (window.location.pathname === '/notes') {
   noteText.addEventListener('keyup', handleRenderSaveBtn);
 }
 
+
+
 getAndRenderNotes();
+
