@@ -37,7 +37,8 @@
   
   Please see link to deployed application below:
   
-  N/A
+  https://joemeetjoenotetaker.herokuapp.com/notes
+  
   ![Screenshot 2023-01-31 190610](https://user-images.githubusercontent.com/119348225/215916930-4ce74be6-6b24-4a9d-bc5f-e96a843617b0.png)
 
   ## License
