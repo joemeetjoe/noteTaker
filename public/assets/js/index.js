@@ -1,9 +1,10 @@
+// global variables set to blank
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-
+// if the window location is notes, start some query selectors and grab the values, setting them to the global variables
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
@@ -34,7 +35,7 @@ const getNotes = () =>
     },
   });
 
-
+// calls our local server and posts the note we would like to save, this gets called in another function to refresh the page after call
 const saveNote = (note) => 
   fetch('/api/notes', {
     method: 'POST',
@@ -43,9 +44,7 @@ const saveNote = (note) =>
     },
     body: JSON.stringify(note),
   });
-
-  
-
+// calls our local server and delets a note based off of the id we give it.
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -53,10 +52,10 @@ const deleteNote = (id) =>
       'Content-Type': 'application/json',
     },
   });
-
+// this hides the save note button after a new note is saved
 const renderActiveNote = () => {
   hide(saveNoteBtn);
-
+// if there is an active note, set everything in that column to read only. if not, remove readonly
   if (activeNote.id) {
     noteTitle.setAttribute('readonly', true);
     noteText.setAttribute('readonly', true);
@@ -69,21 +68,19 @@ const renderActiveNote = () => {
     noteText.value = '';
   }
 };
-
+// this creates an object with the inputs inside, saves them in the fetch call, then re calls the list from the server, displaying it.
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
   };
-  // console.log(newNote);
   saveNote(newNote).then(() => {
-    console.log(newNote);
     getAndRenderNotes();
     renderActiveNote();
   });
 };
 
-// Delete the clicked note
+// Delete the clicked note, and refresh the page
 const handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
@@ -113,7 +110,7 @@ const handleNewNoteView = (e) => {
   activeNote = {};
   renderActiveNote();
 };
-
+// if there is no value in the save note areas, then hide the button to save, if there are values, make it visible
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
@@ -161,13 +158,12 @@ const renderNoteList = async (notes) => {
 
     return liEl;
   };
-
+// if there are no saved notes, populate 'no saved notes'
   if (jsonNotes.length === 0) {
     noteListItems.push(createLi('No saved Notes', false));
   }
 
   jsonNotes.forEach((note) => {
-    // console.log(note);
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
 
@@ -182,7 +178,7 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-
+// if the window location is notes, then create this event listeners
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
@@ -191,6 +187,6 @@ if (window.location.pathname === '/notes') {
 }
 
 
-
+// init
 getAndRenderNotes();
 

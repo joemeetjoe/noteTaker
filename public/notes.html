@@ -1,3 +1,4 @@
+<!--doctype and generic data needed for HTML, calls bootstrap -->
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -14,7 +15,7 @@
     />
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
-
+<!-- navbar with buttons that are hidden on load -->
   <body>
     <nav class="navbar bg-info">
       <a class="navbar-brand text-light p-3" href="/">Note Taker </a>
@@ -23,6 +24,7 @@
         <i class="fas fa-plus text-light new-note"></i>
       </div>
     </nav>
+    <!-- div that will display the saved notes that the user fetches from storage -->
     <div class="container-fluid">
       <div class="row">
         <div class="col-4 list-container">
@@ -30,6 +32,7 @@
             <ul class="list-group"></ul>
           </div>
         </div>
+        <!-- dive where the user will input the notes they would like to save.  -->
         <div class="col-8">
           <input
             class="note-title"
